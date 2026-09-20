@@ -21,10 +21,15 @@ import {
   ExternalLink, 
   QrCode, 
   KeyRound, 
-  FileCheck2 
+  FileCheck2,
+  Menu,
+  X
 } from 'lucide-react';
 
 const REPO_URL = "https://github.com/vedanshsaxena23/Glyphboard";
+const PROFILE_GITHUB = "https://github.com/vedanshsaxena23";
+const PROFILE_LINKEDIN = "https://www.linkedin.com/in/hey-its-vedansh-saxena/";
+const PROFILE_INSTAGRAM = "https://www.instagram.com/_vedansh.saxena_/";
 const DOWNLOAD_BASE = `${REPO_URL}/releases/download/1.0.0`;
 
 const DOWNLOADS = {
@@ -35,7 +40,7 @@ const DOWNLOADS = {
   linuxRpm: `${DOWNLOAD_BASE}/glyphboard-1.0.0.x86_64.rpm`,
 };
 
-function GithubIcon({ size = 18, className = "" }) {
+function GithubIcon({ size = 16, className = "" }) {
   return (
     <svg
       width={size}
@@ -54,11 +59,52 @@ function GithubIcon({ size = 18, className = "" }) {
   );
 }
 
+function LinkedInIcon({ size = 16, className = "" }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect x="2" y="9" width="4" height="12" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  );
+}
+
+function InstagramIcon({ size = 16, className = "" }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  );
+}
+
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('overview'); // 'overview' | 'hardware-vault' | 'totp-2fa' | 'dual-engine' | 'readme'
+  const [currentPage, setCurrentPage] = useState('overview');
   const [copied, setCopied] = useState(false);
   const [showLinuxDropdown, setShowLinuxDropdown] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const dropdownRef = useRef(null);
 
@@ -81,77 +127,184 @@ export default function App() {
   const navigateTo = (page) => {
     setCurrentPage(page);
     setShowLinuxDropdown(false);
+    setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <div className="relative min-h-screen bg-[#090d13] text-slate-100 selection:bg-cyan-500 selection:text-black font-sans">
-      {/* Background Gradients */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f29370f_1px,transparent_1px),linear-gradient(to_bottom,#1f29370f_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-cyan-500/10 blur-[130px] rounded-full pointer-events-none" />
+    <div className="relative min-h-screen bg-[#040c10] text-[#cbe5e9] selection:bg-[#499ea8] selection:text-[#040c10] font-mono overflow-x-hidden">
+      {/* Background Starfield Glow & Atmospheric Radial Gradients */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#0d252e0f_1px,transparent_1px),linear-gradient(to_bottom,#0d252e0f_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-[450px] bg-gradient-to-b from-[#1b3d45]/20 via-[#0a1e27]/10 to-transparent blur-[120px] pointer-events-none" />
+      <div className="absolute top-80 right-0 w-80 h-80 bg-[#16363d]/15 blur-[100px] pointer-events-none" />
 
-      {/* Top Navbar */}
-      <nav className="relative z-30 w-full max-w-6xl mx-auto px-6 py-6 flex justify-between items-center border-b border-[#21262d]/70 backdrop-blur-md">
+      {/* Top Console Navigation Bar */}
+      <nav className="relative z-40 w-full max-w-6xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center border-b border-[#142c35]/80 bg-[#061117]/80 backdrop-blur-md">
         <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigateTo('overview')}>
-          <div className="w-10 h-10 rounded-xl bg-[#161b22] border border-cyan-500/40 p-1 flex items-center justify-center shadow-md shadow-cyan-500/10">
+          <div className="w-9 h-9 rounded-lg bg-[#09181f] border border-[#2e5963] p-1 flex items-center justify-center shadow-[0_0_15px_rgba(73,158,168,0.15)]">
             <img 
               src="/logo.png" 
-              alt="GlyphBoard Logo" 
+              alt="Logo" 
               className="w-full h-full object-contain"
               onError={(e) => {
                 e.target.style.display = 'none';
-                e.target.parentNode.innerText = 'GB';
+                e.target.parentNode.innerText = '>_';
               }}
             />
           </div>
           <div className="flex flex-col">
-            <span className="font-extrabold tracking-wider text-white text-base leading-none">GLYPHBOARD</span>
-            <span className="text-[10px] text-slate-400 font-mono tracking-widest mt-1">OFFLINE VAULT</span>
+            <span className="font-black tracking-widest text-[#e8f5f7] text-sm sm:text-base leading-none">GLYPHBOARD</span>
+            <span className="text-[9px] text-[#4d7e87] tracking-widest mt-1">SEC_LEVEL // 0xAEGIS</span>
           </div>
-          <span className="ml-2 text-xs bg-cyan-950/40 border border-cyan-800/40 text-cyan-400 px-2.5 py-0.5 rounded-full font-mono flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-            v1.0.0 "Aegis"
+          <span className="hidden md:inline-flex text-[11px] bg-[#091c24] border border-[#1b434e] text-[#64bcc7] px-2 py-0.5 rounded font-mono">
+            v1.0.0 Aegis
           </span>
         </div>
 
-        {/* Global Page Switcher */}
-        <div className="flex items-center gap-1.5 bg-[#161b22] border border-[#30363d] p-1 rounded-xl">
+        {/* Desktop Screen Switcher */}
+        <div className="hidden md:flex items-center gap-1 bg-[#07151c] border border-[#142c35] p-1 rounded-lg text-xs">
           <button
             onClick={() => navigateTo('overview')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded transition-all cursor-pointer flex items-center gap-1.5 ${
               currentPage === 'overview' 
-                ? 'bg-cyan-500 text-slate-950 font-bold shadow-sm' 
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-[#1b434e] text-[#e8f5f7] font-bold shadow-sm' 
+                : 'text-[#618a93] hover:text-[#cbe5e9]'
             }`}
           >
-            <Layers size={14} />
-            <span className="hidden sm:inline">Overview</span>
+            <Layers size={13} />
+            <span>Terminal</span>
           </button>
           <button
             onClick={() => navigateTo('readme')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded transition-all cursor-pointer flex items-center gap-1.5 ${
               currentPage === 'readme' 
-                ? 'bg-cyan-500 text-slate-950 font-bold shadow-sm' 
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-[#1b434e] text-[#e8f5f7] font-bold shadow-sm' 
+                : 'text-[#618a93] hover:text-[#cbe5e9]'
             }`}
           >
-            <BookOpen size={14} />
-            <span className="hidden sm:inline">README.md</span>
+            <BookOpen size={13} />
+            <span>Docs</span>
           </button>
         </div>
 
-        <div className="hidden sm:flex items-center gap-3">
+        {/* Right CTA Links (Socials + Mobile Menu) */}
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <a 
-            href={REPO_URL} 
+            href={PROFILE_GITHUB} 
             target="_blank" 
             rel="noreferrer" 
-            className="flex items-center gap-2 text-xs font-mono bg-[#161b22] border border-[#30363d] px-3.5 py-2 rounded-lg text-slate-300 hover:text-white hover:border-slate-500 transition-all shadow-sm"
+            className="flex items-center gap-1.5 text-xs bg-[#08171f] border border-[#1b3d45] hover:border-[#499ea8] px-2 sm:px-2.5 py-1.5 rounded text-[#9dcad2] transition-colors"
+            title="GitHub"
           >
-            <GithubIcon size={16} />
-            <span>GitHub</span>
+            <GithubIcon size={14} />
+            <span className="hidden lg:inline">GitHub</span>
           </a>
+
+          <a 
+            href={PROFILE_LINKEDIN} 
+            target="_blank" 
+            rel="noreferrer" 
+            className="flex items-center gap-1.5 text-xs bg-[#08171f] border border-[#1b3d45] hover:border-[#499ea8] px-2 sm:px-2.5 py-1.5 rounded text-[#9dcad2] transition-colors"
+            title="LinkedIn"
+          >
+            <LinkedInIcon size={14} />
+            <span className="hidden lg:inline">LinkedIn</span>
+          </a>
+
+          <a 
+            href={PROFILE_INSTAGRAM} 
+            target="_blank" 
+            rel="noreferrer" 
+            className="flex items-center gap-1.5 text-xs bg-[#08171f] border border-[#1b3d45] hover:border-[#499ea8] px-2 sm:px-2.5 py-1.5 rounded text-[#9dcad2] transition-colors"
+            title="Instagram"
+          >
+            <InstagramIcon size={14} />
+            <span className="hidden lg:inline">Instagram</span>
+          </a>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-1.5 rounded bg-[#091921] border border-[#183944] text-[#8cbcc6] ml-1"
+            aria-label="Toggle Menu"
+          >
+            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
         </div>
       </nav>
+
+      {/* Mobile Drawer */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden relative z-30 bg-[#061117] border-b border-[#142c35] px-6 py-4 flex flex-col gap-3 text-xs"
+          >
+            <button
+              onClick={() => navigateTo('overview')}
+              className={`text-left py-2 px-3 rounded flex items-center gap-2 ${
+                currentPage === 'overview' ? 'bg-[#14323c] text-white font-bold' : 'text-[#77a5af]'
+              }`}
+            >
+              <Layers size={14} /> Overview Console
+            </button>
+            <button
+              onClick={() => navigateTo('hardware-vault')}
+              className="text-left py-2 px-3 rounded text-[#77a5af] hover:bg-[#0d222b] flex items-center gap-2"
+            >
+              <ShieldCheck size={14} /> Vault Specs
+            </button>
+            <button
+              onClick={() => navigateTo('totp-2fa')}
+              className="text-left py-2 px-3 rounded text-[#77a5af] hover:bg-[#0d222b] flex items-center gap-2"
+            >
+              <Key size={14} /> TOTP Subsystem
+            </button>
+            <button
+              onClick={() => navigateTo('dual-engine')}
+              className="text-left py-2 px-3 rounded text-[#77a5af] hover:bg-[#0d222b] flex items-center gap-2"
+            >
+              <Database size={14} /> Storage Engine
+            </button>
+            <button
+              onClick={() => navigateTo('readme')}
+              className={`text-left py-2 px-3 rounded flex items-center gap-2 ${
+                currentPage === 'readme' ? 'bg-[#14323c] text-white font-bold' : 'text-[#77a5af]'
+              }`}
+            >
+              <BookOpen size={14} /> README.md
+            </button>
+            <div className="pt-2 border-t border-[#142c35] grid grid-cols-3 gap-2">
+              <a
+                href={PROFILE_GITHUB}
+                target="_blank"
+                rel="noreferrer"
+                className="py-2 px-1 rounded bg-[#091b24] border border-[#1d4652] text-[#8bc3ce] flex items-center justify-center gap-1.5"
+              >
+                <GithubIcon size={13} /> GitHub
+              </a>
+              <a
+                href={PROFILE_LINKEDIN}
+                target="_blank"
+                rel="noreferrer"
+                className="py-2 px-1 rounded bg-[#091b24] border border-[#1d4652] text-[#8bc3ce] flex items-center justify-center gap-1.5"
+              >
+                <LinkedInIcon size={13} /> LinkedIn
+              </a>
+              <a
+                href={PROFILE_INSTAGRAM}
+                target="_blank"
+                rel="noreferrer"
+                className="py-2 px-1 rounded bg-[#091b24] border border-[#1d4652] text-[#8bc3ce] flex items-center justify-center gap-1.5"
+              >
+                <InstagramIcon size={13} /> Insta
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ========================================================================= */}
       {/* 1. OVERVIEW PAGE                                                          */}
@@ -159,67 +312,68 @@ export default function App() {
       {currentPage === 'overview' && (
         <motion.div
           key="overview"
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
         >
-          {/* Hero Section: elevated with relative z-20 */}
-          <section className="relative z-20 max-w-4xl mx-auto px-6 pt-20 pb-14 text-center">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-950/30 text-xs font-mono text-cyan-300 mb-8 backdrop-blur-md shadow-inner">
-              <ShieldCheck size={14} className="text-cyan-400" />
-              <span>Production Milestone • 100% Offline • Zero Telemetry</span>
+          {/* Hero Section */}
+          <section className="relative z-30 max-w-4xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-14 text-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-[#214a54] bg-[#07161d]/90 text-[11px] text-[#69c0cd] mb-6 shadow-[0_0_20px_rgba(33,74,84,0.3)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#52b9c7] animate-ping" />
+              <span>STATION_ID // OFFLINE_COLD_STORAGE</span>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-6 leading-[1.1] text-white">
+            {/* Requested Hero Headline */}
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-[#f0f8f9] mb-6 leading-tight">
               Your Code. Your Machine. <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#62c0ce] via-[#85dbe7] to-[#408a95]">
                 Absolute Sovereignty.
               </span>
             </h1>
 
-            <p className="text-slate-400 text-base md:text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
-              An offline developer clipboard and snippet workspace. 
-              Protected with hardware-bound <span className="text-slate-200 font-medium">AES-256-GCM</span>, 
-              integrated <span className="text-slate-200 font-medium">TOTP 2FA</span>, 
-              and high-throughput <span className="text-slate-200 font-medium">SQLite WAL</span> storage.
+            <p className="text-[#7ea9b2] text-xs sm:text-sm md:text-base max-w-2xl mx-auto mb-10 leading-relaxed font-sans">
+              An offline code snippet manager engineered to eliminate cloud liability. 
+              Protected with hardware-bound <span className="text-[#d8f0f3] font-mono">AES-256-GCM</span>, 
+              air-gapped <span className="text-[#d8f0f3] font-mono">TOTP 2FA</span>, 
+              and dynamic <span className="text-[#d8f0f3] font-mono">SQLite WAL</span> dual-engine caching.
             </p>
 
-            {/* Direct Download Hub */}
-            <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
+            {/* Direct Action Download Hub */}
+            <div className="relative z-30 flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-8">
               <a
                 href={DOWNLOADS.windowsExe}
                 download
-                className="flex items-center gap-2.5 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-400 hover:to-sky-400 text-slate-950 font-bold px-7 py-3.5 rounded-xl transition-all shadow-lg shadow-cyan-500/20 cursor-pointer"
+                className="w-full sm:w-auto flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#2c6e79] to-[#3a8b98] hover:from-[#357f8c] hover:to-[#439eac] text-[#040c10] font-bold px-6 py-3 rounded-lg transition-all shadow-[0_4px_25px_rgba(44,110,121,0.35)] cursor-pointer text-xs"
               >
-                <Download size={18} />
-                <span>Download for Windows (.exe)</span>
+                <Download size={16} />
+                <span>EXECUTE: WINDOWS (.EXE)</span>
               </a>
 
-              {/* Linux Dropdown */}
-              <div className="relative" ref={dropdownRef}>
+              {/* Linux Distribution Popover */}
+              <div className="relative w-full sm:w-auto" ref={dropdownRef}>
                 <button
                   type="button"
                   onClick={() => setShowLinuxDropdown((prev) => !prev)}
-                  className="flex items-center gap-2.5 bg-[#161b22] hover:bg-[#1f242c] border border-[#30363d] hover:border-slate-500 text-white font-semibold px-6 py-3.5 rounded-xl transition-all shadow-sm cursor-pointer"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#091b24] hover:bg-[#0e2733] border border-[#214954] text-[#b3dde4] px-5 py-3 rounded-lg transition-all text-xs cursor-pointer"
                 >
-                  <Terminal size={18} className="text-cyan-400" />
-                  <span>Download for Linux</span>
-                  <ChevronDown size={16} className={`transition-transform duration-200 ${showLinuxDropdown ? "rotate-180" : ""}`} />
+                  <Terminal size={16} className="text-[#59b8c6]" />
+                  <span>LINUX PACKAGES</span>
+                  <ChevronDown size={14} className={`transition-transform duration-200 ${showLinuxDropdown ? "rotate-180" : ""}`} />
                 </button>
 
                 <AnimatePresence>
                   {showLinuxDropdown && (
                     <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                      initial={{ opacity: 0, y: 8, scale: 0.97 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                      transition={{ duration: 0.15 }}
-                      className="absolute left-0 sm:left-auto sm:right-0 mt-3 w-72 bg-[#12161f] border border-[#30363d] rounded-2xl p-2.5 shadow-[0_20px_60px_rgba(0,0,0,0.9)] z-50 text-left font-mono text-xs ring-1 ring-cyan-500/30"
+                      exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                      transition={{ duration: 0.12 }}
+                      className="absolute left-0 sm:left-auto sm:right-0 mt-2 w-full sm:w-80 bg-[#07151c] border border-[#285764] rounded-xl p-2.5 shadow-[0_20px_60px_rgba(0,0,0,0.9)] z-50 text-left text-xs"
                     >
-                      <div className="px-3 py-1.5 text-[10px] text-cyan-400 uppercase tracking-widest font-bold flex items-center justify-between">
-                        <span>Linux Packages</span>
-                        <span className="text-[9px] bg-cyan-950 text-cyan-300 px-1.5 py-0.5 rounded border border-cyan-800">x86_64</span>
+                      <div className="px-3 py-1 text-[10px] text-[#4d8692] uppercase tracking-wider flex justify-between">
+                        <span>Target: x86_64 Targets</span>
+                        <span>OFFLINE</span>
                       </div>
                       
                       <div className="space-y-1 mt-1">
@@ -227,55 +381,52 @@ export default function App() {
                           href={DOWNLOADS.linuxAppImage} 
                           download
                           onClick={() => setShowLinuxDropdown(false)}
-                          className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-cyan-500/10 hover:text-cyan-300 text-slate-200 transition-all group"
+                          className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-[#122e38] text-[#cbe5e9] transition-colors group"
                         >
                           <div>
-                            <div className="font-semibold text-white group-hover:text-cyan-300">AppImage</div>
-                            <div className="text-[10px] text-slate-400 font-sans">Universal Linux binary</div>
+                            <div className="font-bold text-[#e1f1f3]">Universal AppImage</div>
+                            <div className="text-[10px] text-[#6d96a0] font-sans">Self-contained portable binary</div>
                           </div>
-                          <Download size={15} className="text-slate-500 group-hover:text-cyan-400" />
+                          <Download size={14} className="text-[#52b9c7]" />
                         </a>
 
                         <a 
                           href={DOWNLOADS.linuxDeb} 
                           download
                           onClick={() => setShowLinuxDropdown(false)}
-                          className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-cyan-500/10 hover:text-cyan-300 text-slate-200 transition-all group"
+                          className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-[#122e38] text-[#cbe5e9] transition-colors group"
                         >
                           <div>
-                            <div className="font-semibold text-white group-hover:text-cyan-300">Debian / Ubuntu (.deb)</div>
-                            <div className="text-[10px] text-slate-400 font-sans">APT / dpkg package</div>
+                            <div className="font-bold text-[#e1f1f3]">Debian / Ubuntu (.deb)</div>
+                            <div className="text-[10px] text-[#6d96a0] font-sans">dpkg distribution package</div>
                           </div>
-                          <Download size={15} className="text-slate-500 group-hover:text-cyan-400" />
+                          <Download size={14} className="text-[#52b9c7]" />
                         </a>
 
                         <a 
                           href={DOWNLOADS.linuxRpm} 
                           download
                           onClick={() => setShowLinuxDropdown(false)}
-                          className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-cyan-500/10 hover:text-cyan-300 text-slate-200 transition-all group"
+                          className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-[#122e38] text-[#cbe5e9] transition-colors group"
                         >
                           <div>
-                            <div className="font-semibold text-white group-hover:text-cyan-300">RedHat / Fedora (.rpm)</div>
-                            <div className="text-[10px] text-slate-400 font-sans">RPM package</div>
+                            <div className="font-bold text-[#e1f1f3]">Fedora / RHEL (.rpm)</div>
+                            <div className="text-[10px] text-[#6d96a0] font-sans">RedHat RPM binary</div>
                           </div>
-                          <Download size={15} className="text-slate-500 group-hover:text-cyan-400" />
+                          <Download size={14} className="text-[#52b9c7]" />
                         </a>
                       </div>
 
-                      <div className="border-t border-[#30363d] my-1.5" />
+                      <div className="border-t border-[#183944] my-1.5" />
 
                       <a 
                         href={DOWNLOADS.windowsPortable} 
                         download
                         onClick={() => setShowLinuxDropdown(false)}
-                        className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition-colors"
+                        className="flex items-center justify-between px-3 py-1.5 rounded-lg hover:bg-[#0f2832] text-[#86b0ba] text-[11px]"
                       >
-                        <div>
-                          <div className="font-semibold">Windows Portable (.exe)</div>
-                          <div className="text-[10px] text-slate-500 font-sans">Standalone portable executable</div>
-                        </div>
-                        <Download size={14} />
+                        <span>Windows Portable (.zip/.exe)</span>
+                        <Download size={13} />
                       </a>
                     </motion.div>
                   )}
@@ -283,160 +434,158 @@ export default function App() {
               </div>
             </div>
 
-            {/* Quick Clone Bar */}
-            <div className="inline-flex items-center gap-3 bg-[#161b22]/90 border border-[#30363d] px-4 py-2 rounded-lg text-xs font-mono text-slate-400 backdrop-blur-md">
-              <span className="text-cyan-500">$</span>
-              <span>git clone {REPO_URL}.git</span>
+            {/* Quick Terminal Clone Widget */}
+            <div className="w-full max-w-lg mx-auto inline-flex items-center justify-between gap-3 bg-[#06141c] border border-[#173a46] px-3.5 py-2 rounded-lg text-xs text-[#72a1ab]">
+              <div className="flex items-center gap-2 truncate">
+                <span className="text-[#4198a4] select-none">$</span>
+                <span className="truncate font-mono">git clone {REPO_URL}.git</span>
+              </div>
               <button 
                 onClick={handleCopyInstall} 
-                className="ml-2 hover:text-white transition-colors cursor-pointer"
-                title="Copy command"
+                className="hover:text-white transition-colors cursor-pointer flex-shrink-0"
+                title="Copy shell command"
               >
-                {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+                {copied ? <Check size={14} className="text-[#57d5a5]" /> : <Copy size={14} />}
               </button>
             </div>
           </section>
 
-          {/* Interactive Vault Status Banner: relative z-10 */}
-          <section className="relative z-10 max-w-4xl mx-auto px-6 mb-12">
-            <div className="bg-gradient-to-b from-[#161b22] to-[#0f1319] border border-[#30363d] rounded-2xl p-6 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex items-center gap-4">
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center border transition-all ${
+          {/* Interactive Vault Hardware State */}
+          <section className="relative z-20 max-w-4xl mx-auto px-4 sm:px-6 mb-10">
+            <div className="bg-[#071720]/90 border border-[#1c434f] rounded-xl p-4 sm:p-6 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
+              <div className="flex items-center gap-4 w-full md:w-auto">
+                <div className={`w-11 h-11 rounded-lg flex items-center justify-center border flex-shrink-0 transition-all ${
                   isLocked 
-                    ? "bg-rose-500/10 border-rose-500/30 text-rose-400 shadow-rose-500/20 shadow-md" 
-                    : "bg-emerald-500/10 border-emerald-500/30 text-emerald-400 shadow-emerald-500/20 shadow-md"
+                    ? "bg-[#291316]/50 border-[#692128] text-[#e0626e]" 
+                    : "bg-[#0c2429]/60 border-[#2b6570] text-[#5ac7d6]"
                 }`}>
-                  {isLocked ? <Lock size={22} /> : <Unlock size={22} />}
+                  {isLocked ? <Lock size={20} /> : <Unlock size={20} />}
                 </div>
-                <div>
+                <div className="text-left overflow-hidden">
                   <div className="flex items-center gap-2">
-                    <h4 className="font-bold text-white text-sm">
-                      {isLocked ? "VAULT STATE: LOCKED (ZERO-FILL)" : "VAULT STATE: ARMED & ACTIVE"}
-                    </h4>
-                    <span className={`w-2 h-2 rounded-full ${isLocked ? "bg-rose-400" : "bg-emerald-400 animate-ping"}`} />
+                    <span className="text-xs font-bold tracking-wider text-[#eaf7f9] truncate">
+                      {isLocked ? "VAULT // ZERO_FILL_QUARANTINE" : "VAULT // ARMED_ACTIVE_MEM"}
+                    </span>
+                    <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${isLocked ? "bg-[#e0626e]" : "bg-[#5ac7d6] animate-pulse"}`} />
                   </div>
-                  <p className="text-xs text-slate-400 font-mono mt-0.5">
+                  <p className="text-[11px] text-[#719ea8] font-sans mt-0.5 truncate">
                     {isLocked 
-                      ? "In-memory keys zeroed out. TOTP 2FA or Master Passkey required to decrypt." 
-                      : "Protected with DPAPI SafeStorage. Local SQLite WAL stream verified."}
+                      ? "RAM buffers zeroed out. Re-authentication challenge required." 
+                      : "DPAPI system keychain tied. Write-Ahead Logging active."}
                   </p>
                 </div>
               </div>
 
               <button
                 onClick={() => setIsLocked(!isLocked)}
-                className="w-full md:w-auto px-4 py-2 rounded-lg border border-[#30363d] bg-[#0d1117] hover:bg-[#1a202c] text-xs font-mono text-cyan-300 transition-colors cursor-pointer flex items-center justify-center gap-2"
+                className="w-full md:w-auto px-3.5 py-2 rounded border border-[#23505c] bg-[#0a1e27] hover:bg-[#12313d] text-[11px] text-[#7fcbd6] transition-colors cursor-pointer flex items-center justify-center gap-2 flex-shrink-0"
               >
-                <Sparkles size={14} />
-                <span>{isLocked ? "Simulate Unlock (Passkey)" : "Simulate Zero-Fill Auto-Lock"}</span>
+                <Sparkles size={13} />
+                <span>{isLocked ? "CHALLENGE KEY (UNLOCK)" : "TRIGGER ZERO-FILL"}</span>
               </button>
             </div>
           </section>
 
-          {/* Core Feature Tiles: Click to open pages */}
-          <section className="relative z-10 max-w-5xl mx-auto px-6 py-6">
-            <div className="mb-4 flex items-center justify-between">
-              <span className="text-xs font-mono uppercase tracking-widest text-slate-400 font-semibold">
-                Architecture Pillars (Click card to read deep-dive)
-              </span>
+          {/* Core Feature Matrix */}
+          <section className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 py-6">
+            <div className="mb-4 text-[10px] uppercase tracking-widest text-[#4d8692] flex items-center justify-between">
+              <span>SYSTEM ARCHITECTURE // SELECT SUBSYSTEM FOR TELEMETRY</span>
+              <span className="hidden sm:inline">3 MODULES COMPILED</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Tile 1 */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
               <motion.div 
-                whileHover={{ y: -6, borderColor: "#38bdf8" }}
-                transition={{ duration: 0.2 }}
+                whileHover={{ y: -4, borderColor: "#4ba4b0" }}
+                transition={{ duration: 0.15 }}
                 onClick={() => navigateTo('hardware-vault')}
-                className="bg-[#161b22]/70 border border-[#30363d] p-6 rounded-2xl backdrop-blur-sm cursor-pointer group hover:bg-[#1a2029] transition-all"
+                className="bg-[#07161e]/80 border border-[#193b46] p-5 sm:p-6 rounded-xl cursor-pointer group hover:bg-[#0c222c] transition-all"
               >
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4 group-hover:scale-110 transition-transform">
-                  <ShieldCheck size={20} />
+                <div className="w-9 h-9 rounded-lg bg-[#0e2730] border border-[#255663] flex items-center justify-center text-[#5ac7d6] mb-4 group-hover:scale-105 transition-transform">
+                  <ShieldCheck size={18} />
                 </div>
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-white text-base">Hardware-Bound Vault</h3>
-                  <span className="text-xs font-mono text-cyan-400 group-hover:translate-x-1 transition-transform">→</span>
+                  <h3 className="font-bold text-[#e1f1f3] text-sm sm:text-base">Hardware-Bound Vault</h3>
+                  <span className="text-xs text-[#5ac7d6] group-hover:translate-x-1 transition-transform">→</span>
                 </div>
-                <p className="text-sm text-slate-400 leading-relaxed">
-                  Payload encryption derived via PBKDF2 and locked to machine-specific credentials through Chromium DPAPI SafeStorage.
+                <p className="text-xs text-[#719ca6] font-sans leading-relaxed">
+                  Payload keys isolated via DPAPI SafeStorage (Win) & Secret Service (Linux) with PBKDF2 salt derivation.
                 </p>
               </motion.div>
 
-              {/* Tile 2 */}
               <motion.div 
-                whileHover={{ y: -6, borderColor: "#38bdf8" }}
-                transition={{ duration: 0.2 }}
+                whileHover={{ y: -4, borderColor: "#4ba4b0" }}
+                transition={{ duration: 0.15 }}
                 onClick={() => navigateTo('totp-2fa')}
-                className="bg-[#161b22]/70 border border-[#30363d] p-6 rounded-2xl backdrop-blur-sm cursor-pointer group hover:bg-[#1a2029] transition-all"
+                className="bg-[#07161e]/80 border border-[#193b46] p-5 sm:p-6 rounded-xl cursor-pointer group hover:bg-[#0c222c] transition-all"
               >
-                <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-4 group-hover:scale-110 transition-transform">
-                  <Key size={20} />
+                <div className="w-9 h-9 rounded-lg bg-[#0e2730] border border-[#255663] flex items-center justify-center text-[#5ac7d6] mb-4 group-hover:scale-105 transition-transform">
+                  <Key size={18} />
                 </div>
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-white text-base">Integrated TOTP 2FA</h3>
-                  <span className="text-xs font-mono text-cyan-400 group-hover:translate-x-1 transition-transform">→</span>
+                  <h3 className="font-bold text-[#e1f1f3] text-sm sm:text-base">Integrated TOTP 2FA</h3>
+                  <span className="text-xs text-[#5ac7d6] group-hover:translate-x-1 transition-transform">→</span>
                 </div>
-                <p className="text-sm text-slate-400 leading-relaxed">
-                  Dynamic QR pairing with standard authenticator apps, bcrypt credential verification, and zero-knowledge canary sentinels.
+                <p className="text-xs text-[#719ca6] font-sans leading-relaxed">
+                  RFC 6238 two-factor authentication, local offline QR generation, and zero-knowledge canary verifiers.
                 </p>
               </motion.div>
 
-              {/* Tile 3 */}
               <motion.div 
-                whileHover={{ y: -6, borderColor: "#38bdf8" }}
-                transition={{ duration: 0.2 }}
+                whileHover={{ y: -4, borderColor: "#4ba4b0" }}
+                transition={{ duration: 0.15 }}
                 onClick={() => navigateTo('dual-engine')}
-                className="bg-[#161b22]/70 border border-[#30363d] p-6 rounded-2xl backdrop-blur-sm cursor-pointer group hover:bg-[#1a2029] transition-all"
+                className="bg-[#07161e]/80 border border-[#193b46] p-5 sm:p-6 rounded-xl cursor-pointer group hover:bg-[#0c222c] transition-all"
               >
-                <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-4 group-hover:scale-110 transition-transform">
-                  <Database size={20} />
+                <div className="w-9 h-9 rounded-lg bg-[#0e2730] border border-[#255663] flex items-center justify-center text-[#5ac7d6] mb-4 group-hover:scale-105 transition-transform">
+                  <Database size={18} />
                 </div>
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-white text-base">Dual Engine Storage</h3>
-                  <span className="text-xs font-mono text-cyan-400 group-hover:translate-x-1 transition-transform">→</span>
+                  <h3 className="font-bold text-[#e1f1f3] text-sm sm:text-base">Dual Engine Storage</h3>
+                  <span className="text-xs text-[#5ac7d6] group-hover:translate-x-1 transition-transform">→</span>
                 </div>
-                <p className="text-sm text-slate-400 leading-relaxed">
-                  Switch dynamically between IndexedDB and an encrypted SQLite engine running in high-concurrency Write-Ahead Logging (WAL) mode.
+                <p className="text-xs text-[#719ca6] font-sans leading-relaxed">
+                  Choose between ultra-fast SQLite WAL for massive scale and lightweight client-side IndexedDB.
                 </p>
               </motion.div>
             </div>
           </section>
 
-          {/* Terminal / Tech Specs Manifest */}
-          <section className="relative z-10 max-w-4xl mx-auto px-6 py-8">
-            <div className="bg-[#161b22] border border-[#30363d] rounded-2xl overflow-hidden font-mono text-xs shadow-2xl">
-              <div className="bg-[#0f141c] px-4 py-3 border-b border-[#30363d] flex items-center justify-between text-slate-400">
+          {/* Monospace System Manifest Terminal */}
+          <section className="relative z-20 max-w-4xl mx-auto px-4 sm:px-6 py-6">
+            <div className="bg-[#051117] border border-[#1a3d48] rounded-xl overflow-hidden shadow-2xl text-xs">
+              <div className="bg-[#071720] px-4 py-2.5 border-b border-[#1a3d48] flex items-center justify-between text-[#5f8e97]">
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-rose-500/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
-                  <span className="ml-2 text-slate-300 text-xs flex items-center gap-1.5">
-                    <FileCode2 size={13} className="text-cyan-400" /> system_manifest.json
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#bd4853]"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#af9247]"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#468f77]"></div>
+                  <span className="ml-2 text-[#99c8d1] flex items-center gap-1.5 font-mono text-[11px]">
+                    <FileCode2 size={12} className="text-[#59b8c6]" /> system_manifest.json
                   </span>
                 </div>
-                <span className="text-cyan-400 text-[11px] bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/40">
-                  100% OFFLINE • NO NETWORK THREADS
+                <span className="text-[10px] text-[#4eaebc] bg-[#0a232c] px-2 py-0.5 rounded border border-[#1e4854]">
+                  NET_IO: 0KB/s (AIRGAPPED)
                 </span>
               </div>
-              <div className="p-6 text-slate-300 space-y-1.5 overflow-x-auto leading-relaxed bg-[#0d1117]">
-                <div><span className="text-slate-600">01</span> {"{"}</div>
-                <div><span className="text-slate-600">02</span> &nbsp;&nbsp;<span className="text-cyan-400">"release"</span>: <span className="text-emerald-300">"v1.0.0-aegis"</span>,</div>
-                <div><span className="text-slate-600">03</span> &nbsp;&nbsp;<span className="text-cyan-400">"cryptography"</span>: <span className="text-emerald-300">"AES-256-GCM + PBKDF2 (Hardware Salt)"</span>,</div>
-                <div><span className="text-slate-600">04</span> &nbsp;&nbsp;<span className="text-cyan-400">"keyProtection"</span>: <span className="text-emerald-300">"DPAPI SafeStorage (OS Isolated)"</span>,</div>
-                <div><span className="text-slate-600">05</span> &nbsp;&nbsp;<span className="text-cyan-400">"databases"</span>: [<span className="text-emerald-300">"SQLite (WAL Mode)"</span>, <span className="text-emerald-300">"IndexedDB"</span>],</div>
-                <div><span className="text-slate-600">06</span> &nbsp;&nbsp;<span className="text-cyan-400">"memorySecurity"</span>: <span className="text-emerald-300">"Zero-fill in-memory wipe on idle/lock"</span>,</div>
-                <div><span className="text-slate-600">07</span> &nbsp;&nbsp;<span className="text-cyan-400">"telemetry"</span>: <span className="text-rose-400">false</span>,</div>
-                <div><span className="text-slate-600">08</span> &nbsp;&nbsp;<span className="text-cyan-400">"networkCalls"</span>: <span className="text-rose-400">0</span></div>
-                <div><span className="text-slate-600">09</span> {"}"}</div>
+              <div className="p-4 sm:p-6 text-[#9ac6cf] space-y-1 overflow-x-auto leading-relaxed font-mono">
+                <div><span className="text-[#3d656e]">01</span> {"{"}</div>
+                <div><span className="text-[#3d656e]">02</span> &nbsp;&nbsp;<span className="text-[#5ac7d6]">"release"</span>: <span className="text-[#7ce2b8]">"v1.0.0-aegis"</span>,</div>
+                <div><span className="text-[#3d656e]">03</span> &nbsp;&nbsp;<span className="text-[#5ac7d6]">"cryptography"</span>: <span className="text-[#7ce2b8]">"AES-256-GCM + PBKDF2 (Hardware Salt)"</span>,</div>
+                <div><span className="text-[#3d656e]">04</span> &nbsp;&nbsp;<span className="text-[#5ac7d6]">"keyIsolation"</span>: <span className="text-[#7ce2b8]">"DPAPI SafeStorage (Zero Disk Leak)"</span>,</div>
+                <div><span className="text-[#3d656e]">05</span> &nbsp;&nbsp;<span className="text-[#5ac7d6]">"databases"</span>: [<span className="text-[#7ce2b8]">"SQLite (WAL Mode)"</span>, <span className="text-[#7ce2b8]">"IndexedDB"</span>],</div>
+                <div><span className="text-[#3d656e]">06</span> &nbsp;&nbsp;<span className="text-[#5ac7d6]">"memorySecurity"</span>: <span className="text-[#7ce2b8]">"Zero-fill in-memory wipe on idle/lock"</span>,</div>
+                <div><span className="text-[#3d656e]">07</span> &nbsp;&nbsp;<span className="text-[#5ac7d6]">"telemetryPings"</span>: <span className="text-[#eb7480]">0</span>,</div>
+                <div><span className="text-[#3d656e]">08</span> &nbsp;&nbsp;<span className="text-[#5ac7d6]">"networkSockets"</span>: <span className="text-[#eb7480]">null</span></div>
+                <div><span className="text-[#3d656e]">09</span> {"}"}</div>
               </div>
             </div>
           </section>
 
-          {/* Easter Egg & Lore Banner */}
-          <section className="relative z-10 max-w-4xl mx-auto px-6 py-6">
-            <div className="bg-[#161b22]/40 border border-[#30363d]/80 rounded-xl p-5 text-center backdrop-blur-sm">
-              <p className="text-xs text-slate-400 font-mono leading-relaxed">
-                ⚠️ <span className="text-amber-300">WARNING:</span> Side effects of running Aegis include heightened local privacy, 
-                zero cloud anxiety, and the sudden urge to binge-watch detective shows on HBO late at night. ☕🛡️
+          {/* Lore Note */}
+          <section className="relative z-20 max-w-4xl mx-auto px-4 sm:px-6 py-4">
+            <div className="bg-[#06151c]/60 border border-[#15343e] rounded-lg p-4 text-center">
+              <p className="text-[11px] text-[#6b99a3] leading-relaxed">
+                [NOTICE] Aegis environment confirmed offline. Zero cloud panic, high data privacy, 
+                and zero late-night audit anxiety.
               </p>
             </div>
           </section>
@@ -449,68 +598,62 @@ export default function App() {
       {currentPage === 'hardware-vault' && (
         <motion.div
           key="hardware-vault"
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="relative z-10 max-w-4xl mx-auto px-6 py-12"
+          className="relative z-30 max-w-4xl mx-auto px-4 sm:px-6 py-12"
         >
           <button 
             onClick={() => navigateTo('overview')}
-            className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 hover:text-cyan-300 mb-8 cursor-pointer"
+            className="inline-flex items-center gap-2 text-xs text-[#5ac7d6] hover:text-[#8fe0ec] mb-8 cursor-pointer"
           >
-            <ArrowLeft size={14} /> Back to Overview
+            <ArrowLeft size={14} /> [RETURN_TO_ROOT]
           </button>
 
-          <div className="bg-[#161b22] border border-[#30363d] rounded-2xl p-8 sm:p-12 shadow-2xl space-y-8">
-            <div className="flex items-center gap-4 border-b border-[#30363d] pb-6">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                <ShieldCheck size={28} />
+          <div className="bg-[#07161f] border border-[#1b434e] rounded-xl p-6 sm:p-10 shadow-2xl space-y-6">
+            <div className="flex items-center gap-4 border-b border-[#14323b] pb-5">
+              <div className="w-12 h-12 rounded-lg bg-[#0a232b] border border-[#2b6571] flex items-center justify-center text-[#5ac7d6]">
+                <ShieldCheck size={24} />
               </div>
               <div>
-                <span className="text-xs font-mono text-emerald-400 uppercase tracking-wider">Architecture Deep Dive</span>
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Hardware-Bound Vault & PBKDF2</h1>
+                <span className="text-[10px] text-[#4695a2] uppercase tracking-widest">MODULE: CRYPTO_VAULT</span>
+                <h1 className="text-xl sm:text-2xl font-bold text-[#e8f6f8]">Hardware-Bound Encryption & SafeStorage</h1>
               </div>
             </div>
 
-            <p className="text-slate-300 leading-relaxed text-sm sm:text-base">
-              Standard clipboard and note tools store secrets in cleartext on disk, exposing API tokens and keys to unauthorized processes or cold-drive extraction. GlyphBoard introduces a multi-tier cryptographic barrier rooted to your operating system's internal keychain.
+            <p className="text-xs sm:text-sm text-[#82abb5] font-sans leading-relaxed">
+              Standard developer clipboards dump sensitive credentials directly into unencrypted plaintext databases. 
+              GlyphBoard wraps snippet payloads inside an authenticated AES-256-GCM envelope, where the key derivation 
+              is anchored to the local OS hardware signature through DPAPI SafeStorage (Windows) and libsecret (Linux).
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
-              <div className="bg-[#0d1117] p-5 rounded-xl border border-[#30363d]">
-                <div className="text-cyan-400 font-bold mb-2 flex items-center gap-2">
-                  <Cpu size={16} /> DPAPI SafeStorage Isolator
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div className="bg-[#051117] p-4 rounded-lg border border-[#163842]">
+                <div className="text-[#5ac7d6] font-bold mb-1.5 flex items-center gap-2">
+                  <Cpu size={15} /> DPAPI Signature Bind
                 </div>
-                <p className="text-slate-400 text-xs font-sans leading-relaxed">
-                  Cryptographic master keys are encrypted directly using your system's DPAPI on Windows or libsecret on Linux, making raw database files unreadable if copied to another machine.
+                <p className="text-[#6d9aa4] font-sans text-[11px] leading-relaxed">
+                  Cryptographic keys cannot be decrypted if the database file is extracted or transferred to another host machine.
                 </p>
               </div>
-              <div className="bg-[#0d1117] p-5 rounded-xl border border-[#30363d]">
-                <div className="text-emerald-400 font-bold mb-2 flex items-center gap-2">
-                  <FileCheck2 size={16} /> PBKDF2-Derived Salt
+              <div className="bg-[#051117] p-4 rounded-lg border border-[#163842]">
+                <div className="text-[#7ae1b8] font-bold mb-1.5 flex items-center gap-2">
+                  <FileCheck2 size={15} /> PBKDF2-Derived Salt
                 </div>
-                <p className="text-slate-400 text-xs font-sans leading-relaxed">
-                  Every vault generates a unique, hardware-tied cryptographic salt with thousands of key-derivation iterations before producing AES-256-GCM authenticated payloads.
+                <p className="text-[#6d9aa4] font-sans text-[11px] leading-relaxed">
+                  Iterative derivation prevents dictionary attacks even in cold-storage scenarios.
                 </p>
               </div>
             </div>
 
-            <div className="bg-[#0d1117] border border-[#30363d] rounded-xl p-5 font-mono text-xs">
-              <div className="text-slate-500 mb-2">// In-memory zero-fill safety lifecycle</div>
-              <div className="text-slate-300 leading-relaxed">
-                1. Payload decrypted only into private memory buffer upon user challenge.<br/>
-                2. Explicit zero-fill memory wiping executed upon screen lock or 5-min idle.<br/>
-                3. Raw cryptographic key garbage-collected immediately post-render.
-              </div>
-            </div>
-
-            <div className="flex justify-between items-center pt-4 border-t border-[#30363d]">
+            <div className="flex justify-between items-center pt-4 border-t border-[#14323b]">
+              <span className="text-[11px] text-[#4d7f8a]">STATUS: VERIFIED SECURE</span>
               <button 
                 onClick={() => navigateTo('totp-2fa')}
-                className="text-xs font-mono text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5 cursor-pointer ml-auto"
+                className="text-xs text-[#5ac7d6] hover:text-[#8fe0ec] flex items-center gap-1.5 cursor-pointer"
               >
-                Next: Integrated TOTP 2FA →
+                Next: TOTP Gate →
               </button>
             </div>
           </div>
@@ -523,65 +666,67 @@ export default function App() {
       {currentPage === 'totp-2fa' && (
         <motion.div
           key="totp-2fa"
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="relative z-10 max-w-4xl mx-auto px-6 py-12"
+          className="relative z-30 max-w-4xl mx-auto px-4 sm:px-6 py-12"
         >
           <button 
             onClick={() => navigateTo('overview')}
-            className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 hover:text-cyan-300 mb-8 cursor-pointer"
+            className="inline-flex items-center gap-2 text-xs text-[#5ac7d6] hover:text-[#8fe0ec] mb-8 cursor-pointer"
           >
-            <ArrowLeft size={14} /> Back to Overview
+            <ArrowLeft size={14} /> [RETURN_TO_ROOT]
           </button>
 
-          <div className="bg-[#161b22] border border-[#30363d] rounded-2xl p-8 sm:p-12 shadow-2xl space-y-8">
-            <div className="flex items-center gap-4 border-b border-[#30363d] pb-6">
-              <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
-                <Key size={28} />
+          <div className="bg-[#07161f] border border-[#1b434e] rounded-xl p-6 sm:p-10 shadow-2xl space-y-6">
+            <div className="flex items-center gap-4 border-b border-[#14323b] pb-5">
+              <div className="w-12 h-12 rounded-lg bg-[#0a232b] border border-[#2b6571] flex items-center justify-center text-[#5ac7d6]">
+                <Key size={24} />
               </div>
               <div>
-                <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider">Authentication Security</span>
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Integrated TOTP 2FA Gate</h1>
+                <span className="text-[10px] text-[#4695a2] uppercase tracking-wider">MODULE: AUTHENTICATION</span>
+                <h1 className="text-xl sm:text-2xl font-bold text-[#e8f6f8]">Integrated Offline TOTP 2FA</h1>
               </div>
             </div>
 
-            <p className="text-slate-300 leading-relaxed text-sm sm:text-base">
-              GlyphBoard v1.0.0 integrates native Two-Factor Authentication right inside the desktop client. You can bind any standard authenticator app (Google Authenticator, Aegis, 1Password, Bitwarden) directly to your local database without an internet connection.
+            <p className="text-xs sm:text-sm text-[#82abb5] font-sans leading-relaxed">
+              Enforce two-factor authentication on local workstation vaults without calling any cloud servers. 
+              The application uses mathematical RFC 6238 key generation rendered locally on canvas, compatible 
+              with Google Authenticator, Aegis, Bitwarden, and 1Password.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
-              <div className="bg-[#0d1117] p-5 rounded-xl border border-[#30363d]">
-                <div className="text-cyan-400 font-bold mb-2 flex items-center gap-2">
-                  <QrCode size={16} /> Zero-Cloud Pairing
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div className="bg-[#051117] p-4 rounded-lg border border-[#163842]">
+                <div className="text-[#5ac7d6] font-bold mb-1.5 flex items-center gap-2">
+                  <QrCode size={15} /> Zero-Cloud Pairing
                 </div>
-                <p className="text-slate-400 text-xs font-sans leading-relaxed">
-                  The pairing QR code is drawn locally on HTML5 Canvas via mathematical RFC 6238 generation. No external image endpoints or tracking pings are ever dispatched.
+                <p className="text-[#6d9aa4] font-sans text-[11px] leading-relaxed">
+                  QR tokens are generated strictly in-memory without contacting external telemetry or graphic rendering APIs.
                 </p>
               </div>
-              <div className="bg-[#0d1117] p-5 rounded-xl border border-[#30363d]">
-                <div className="text-emerald-400 font-bold mb-2 flex items-center gap-2">
-                  <KeyRound size={16} /> Canary Sentinels
+              <div className="bg-[#051117] p-4 rounded-lg border border-[#163842]">
+                <div className="text-[#7ae1b8] font-bold mb-1.5 flex items-center gap-2">
+                  <KeyRound size={15} /> Canary Verification
                 </div>
-                <p className="text-slate-400 text-xs font-sans leading-relaxed">
-                  Canary tokens verify database record consistency upon decryption. If external tampering or disk bitrot is detected, access is immediately quarantined.
+                <p className="text-[#6d9aa4] font-sans text-[11px] leading-relaxed">
+                  Decryption generates verification checkbits to detect database bitrot or tampering immediately.
                 </p>
               </div>
             </div>
 
-            <div className="flex justify-between items-center pt-4 border-t border-[#30363d]">
+            <div className="flex justify-between items-center pt-4 border-t border-[#14323b]">
               <button 
                 onClick={() => navigateTo('hardware-vault')}
-                className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1.5 cursor-pointer"
+                className="text-xs text-[#719ea8] hover:text-white cursor-pointer"
               >
                 ← Prev: Hardware Vault
               </button>
               <button 
                 onClick={() => navigateTo('dual-engine')}
-                className="text-xs font-mono text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5 cursor-pointer"
+                className="text-xs text-[#5ac7d6] hover:text-[#8fe0ec] flex items-center gap-1.5 cursor-pointer"
               >
-                Next: Dual Engine Storage →
+                Next: Storage Engine →
               </button>
             </div>
           </div>
@@ -594,65 +739,66 @@ export default function App() {
       {currentPage === 'dual-engine' && (
         <motion.div
           key="dual-engine"
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="relative z-10 max-w-4xl mx-auto px-6 py-12"
+          className="relative z-30 max-w-4xl mx-auto px-4 sm:px-6 py-12"
         >
           <button 
             onClick={() => navigateTo('overview')}
-            className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 hover:text-cyan-300 mb-8 cursor-pointer"
+            className="inline-flex items-center gap-2 text-xs text-[#5ac7d6] hover:text-[#8fe0ec] mb-8 cursor-pointer"
           >
-            <ArrowLeft size={14} /> Back to Overview
+            <ArrowLeft size={14} /> [RETURN_TO_ROOT]
           </button>
 
-          <div className="bg-[#161b22] border border-[#30363d] rounded-2xl p-8 sm:p-12 shadow-2xl space-y-8">
-            <div className="flex items-center gap-4 border-b border-[#30363d] pb-6">
-              <div className="w-14 h-14 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
-                <Database size={28} />
+          <div className="bg-[#07161f] border border-[#1b434e] rounded-xl p-6 sm:p-10 shadow-2xl space-y-6">
+            <div className="flex items-center gap-4 border-b border-[#14323b] pb-5">
+              <div className="w-12 h-12 rounded-lg bg-[#0a232b] border border-[#2b6571] flex items-center justify-center text-[#5ac7d6]">
+                <Database size={24} />
               </div>
               <div>
-                <span className="text-xs font-mono text-purple-400 uppercase tracking-wider">Storage Subsystem</span>
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Pluggable Dual-Database Engine</h1>
+                <span className="text-[10px] text-[#4695a2] uppercase tracking-wider">MODULE: STORAGE_PIPELINE</span>
+                <h1 className="text-xl sm:text-2xl font-bold text-[#e8f6f8]">Hot-Swappable Dual Storage Engines</h1>
               </div>
             </div>
 
-            <p className="text-slate-300 leading-relaxed text-sm sm:text-base">
-              Developers require flexibility. Rather than locking you into a single database format, GlyphBoard incorporates a dual-engine abstraction layer allowing instant hot-swapping between SQLite WAL and client-side IndexedDB.
+            <p className="text-xs sm:text-sm text-[#82abb5] font-sans leading-relaxed">
+              Select between SQLite with Write-Ahead Logging for high-throughput snippet repositories, 
+              or browser-standard IndexedDB for sandbox deployments without native compiled dependencies.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
-              <div className="bg-[#0d1117] p-5 rounded-xl border border-[#30363d]">
-                <div className="text-cyan-400 font-bold mb-2 flex items-center gap-2">
-                  <HardDrive size={16} /> SQLite (WAL Mode)
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div className="bg-[#051117] p-4 rounded-lg border border-[#163842]">
+                <div className="text-[#5ac7d6] font-bold mb-1.5 flex items-center gap-2">
+                  <HardDrive size={15} /> SQLite WAL Mode
                 </div>
-                <p className="text-slate-400 text-xs font-sans leading-relaxed">
-                  Optimized for thousands of code snippets. Write-Ahead Logging allows background index rebuilding without locking clipboard paste read operations.
+                <p className="text-[#6d9aa4] font-sans text-[11px] leading-relaxed">
+                  Concurrently write and read thousands of snippets without blocking clipboard capture threads.
                 </p>
               </div>
-              <div className="bg-[#0d1117] p-5 rounded-xl border border-[#30363d]">
-                <div className="text-purple-400 font-bold mb-2 flex items-center gap-2">
-                  <Layers size={16} /> IndexedDB Engine
+              <div className="bg-[#051117] p-4 rounded-lg border border-[#163842]">
+                <div className="text-[#7ae1b8] font-bold mb-1.5 flex items-center gap-2">
+                  <Layers size={15} /> IndexedDB Engine
                 </div>
-                <p className="text-slate-400 text-xs font-sans leading-relaxed">
-                  Zero native binary dependencies. Pure client-side structured storage ensuring full portability across lightweight environments and test sandboxes.
+                <p className="text-[#6d9aa4] font-sans text-[11px] leading-relaxed">
+                  Native client-side persistence ideal for memory-constrained virtual environments.
                 </p>
               </div>
             </div>
 
-            <div className="flex justify-between items-center pt-4 border-t border-[#30363d]">
+            <div className="flex justify-between items-center pt-4 border-t border-[#14323b]">
               <button 
                 onClick={() => navigateTo('totp-2fa')}
-                className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1.5 cursor-pointer"
+                className="text-xs text-[#719ea8] hover:text-white cursor-pointer"
               >
-                ← Prev: TOTP 2FA
+                ← Prev: TOTP Gate
               </button>
               <button 
                 onClick={() => navigateTo('readme')}
-                className="text-xs font-mono text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5 cursor-pointer"
+                className="text-xs text-[#5ac7d6] hover:text-[#8fe0ec] flex items-center gap-1.5 cursor-pointer"
               >
-                Next: Full README.md →
+                Next: README.md →
               </button>
             </div>
           </div>
@@ -665,146 +811,105 @@ export default function App() {
       {currentPage === 'readme' && (
         <motion.div
           key="readme"
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="relative z-10 max-w-4xl mx-auto px-6 py-12"
+          className="relative z-30 max-w-4xl mx-auto px-4 sm:px-6 py-12"
         >
-          <div className="bg-[#161b22] border border-[#30363d] rounded-2xl overflow-hidden shadow-2xl">
-            <div className="bg-[#0f141c] px-6 py-4 border-b border-[#30363d] flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <FileCode2 className="text-cyan-400" size={18} />
-                <span className="font-mono text-sm text-slate-200 font-semibold">README.md</span>
-                <span className="text-xs text-slate-500 font-mono hidden sm:inline">GlyphBoard / v1.0.0 "Aegis"</span>
+          <div className="bg-[#07161f] border border-[#1b434e] rounded-xl overflow-hidden shadow-2xl">
+            <div className="bg-[#091a24] px-4 sm:px-6 py-3 border-b border-[#14323b] flex items-center justify-between">
+              <div className="flex items-center gap-2 text-xs">
+                <FileCode2 className="text-[#5ac7d6]" size={15} />
+                <span className="text-[#e2f1f3] font-bold">README.md</span>
+                <span className="text-[#517f8a] text-[10px] hidden sm:inline">// REPO_ROOT</span>
               </div>
               <a 
                 href={`${REPO_URL}/blob/main/README.md`} 
                 target="_blank" 
                 rel="noreferrer" 
-                className="flex items-center gap-1.5 text-xs font-mono text-cyan-400 hover:text-cyan-300 transition-colors"
+                className="flex items-center gap-1 text-[11px] text-[#5ac7d6] hover:text-[#8de3ee]"
               >
-                <span>Raw on GitHub</span>
-                <ExternalLink size={12} />
+                <span>GitHub Raw</span>
+                <ExternalLink size={11} />
               </a>
             </div>
 
-            <div className="p-8 sm:p-12 text-slate-300 font-sans space-y-8 leading-relaxed text-sm">
-              <div className="border-b border-[#30363d] pb-6 flex items-start gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-[#090d13] border border-cyan-500/30 p-2 flex-shrink-0">
+            <div className="p-5 sm:p-10 text-xs sm:text-sm text-[#8ab1bb] space-y-6 leading-relaxed font-sans">
+              <div className="border-b border-[#15343d] pb-5 flex items-center gap-4">
+                <div className="w-12 h-12 rounded-lg bg-[#051117] border border-[#25525e] p-1.5 flex-shrink-0">
                   <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
                 </div>
                 <div>
-                  <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">GlyphBoard (v1.0.0 — Aegis)</h1>
-                  <p className="text-slate-400 text-xs sm:text-sm font-mono mt-1">
-                    An offline developer clipboard and local snippet workspace manager.
-                  </p>
+                  <h1 className="text-lg sm:text-xl font-bold text-[#ebf7f9] font-mono">GlyphBoard (v1.0.0 — Aegis)</h1>
+                  <p className="text-xs text-[#5d8d97] font-mono mt-0.5">Air-gapped snippet vault & developer clipboard manager</p>
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-2 font-mono text-xs">
-                <span className="bg-[#0d1117] border border-cyan-500/40 text-cyan-300 px-2.5 py-1 rounded">Release: v1.0.0 "Aegis"</span>
-                <span className="bg-[#0d1117] border border-emerald-500/40 text-emerald-300 px-2.5 py-1 rounded">License: GNU GPLv3</span>
-                <span className="bg-[#0d1117] border border-purple-500/40 text-purple-300 px-2.5 py-1 rounded">Cryptography: AES-256-GCM</span>
-                <span className="bg-[#0d1117] border border-amber-500/40 text-amber-300 px-2.5 py-1 rounded">Telemetry: None</span>
+              <div>
+                <h2 className="text-sm font-bold text-[#e1f1f3] font-mono mb-2 flex items-center gap-2">
+                  <Terminal size={14} className="text-[#5ac7d6]" />
+                  1. QUICKSTART INSTRUCTIONS
+                </h2>
+                <div className="bg-[#051117] border border-[#153842] rounded-lg p-3 sm:p-4 font-mono text-[11px] text-[#86b5bf] space-y-1.5 overflow-x-auto">
+                  <div className="text-[#3c6670]"># Clone repository</div>
+                  <div>git clone https://github.com/vedanshsaxena23/Glyphboard.git</div>
+                  <div>cd Glyphboard</div>
+                  <div className="text-[#3c6670] pt-2"># Install dependencies & run</div>
+                  <div>npm install</div>
+                  <div className="text-[#3c6670] pt-2"># Build multi-platform packages</div>
+                  <div>npm run electron:build</div>
+                </div>
               </div>
 
               <div>
-                <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
-                  <ShieldCheck className="text-cyan-400" size={18} />
-                  1. Cryptographic Architecture
+                <h2 className="text-sm font-bold text-[#e1f1f3] font-mono mb-2 flex items-center gap-2">
+                  <ShieldCheck size={14} className="text-[#5ac7d6]" />
+                  2. SPECIFICATIONS
                 </h2>
-                <ul className="list-disc pl-5 space-y-2 text-slate-400 text-xs sm:text-sm">
-                  <li><strong className="text-slate-200">Hardware-Bound Derivation:</strong> Key derivation uses PBKDF2 with salt parameters tied directly to machine fingerprints and isolated DPAPI SafeStorage primitives.</li>
-                  <li><strong className="text-slate-200">Zero-Fill Memory Wiping:</strong> All decrypted payload buffers in RAM are proactively overwritten with zeroes upon screen-lock or idle threshold events.</li>
-                  <li><strong className="text-slate-200">TOTP Two-Factor Authentication:</strong> Integrated QR provisioning and verification using standard TOTP algorithms (RFC 6238) with bcrypt credential checks.</li>
+                <ul className="list-disc pl-5 space-y-1 text-xs text-[#75a0aa]">
+                  <li><strong className="text-[#d8f0f3]">Encryption:</strong> AES-256-GCM payload cipher with automated PBKDF2 salt derivation.</li>
+                  <li><strong className="text-[#d8f0f3]">Isolation:</strong> DPAPI on Windows and Secret Service on Linux.</li>
+                  <li><strong className="text-[#d8f0f3]">Memory Sanitization:</strong> In-memory buffers proactively wiped upon system idle thresholds.</li>
                 </ul>
               </div>
 
-              <div>
-                <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
-                  <Database className="text-purple-400" size={18} />
-                  2. Dual Storage Engine
-                </h2>
-                <p className="text-slate-400 mb-3 text-xs sm:text-sm">
-                  GlyphBoard offers a hot-swappable storage back-end accessible directly through the application preferences:
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
-                  <div className="bg-[#0d1117] p-4 rounded-xl border border-[#30363d]">
-                    <div className="text-cyan-400 font-bold mb-1">SQLite (WAL Engine)</div>
-                    <p className="text-slate-400 text-[11px]">Recommended for high-concurrency and large snippet repositories. Employs Write-Ahead Logging for rapid write throughput.</p>
-                  </div>
-                  <div className="bg-[#0d1117] p-4 rounded-xl border border-[#30363d]">
-                    <div className="text-purple-400 font-bold mb-1">IndexedDB Engine</div>
-                    <p className="text-slate-400 text-[11px]">Fully browser-compatible client-side structured storage with zero external binary dependency.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
-                  <Terminal className="text-emerald-400" size={18} />
-                  3. Development & Build Setup
-                </h2>
-                <div className="bg-[#0d1117] border border-[#30363d] rounded-xl p-4 font-mono text-xs text-slate-300 space-y-2 overflow-x-auto">
-                  <div className="text-slate-500"># Clone the repository</div>
-                  <div>git clone https://github.com/vedanshsaxena23/Glyphboard.git</div>
-                  <div>cd Glyphboard</div>
-                  <div className="text-slate-500 mt-2"># Install dependencies</div>
-                  <div>npm install</div>
-                  <div className="text-slate-500 mt-2"># Run desktop application in development mode</div>
-                  <div>npm run dev</div>
-                  <div className="text-slate-500 mt-2"># Package distributables for Windows & Linux</div>
-                  <div>npm run build:all</div>
-                </div>
-              </div>
-
-              <div className="border-t border-[#30363d] pt-6 flex justify-between items-center text-xs text-slate-500 font-mono">
-                <span>Licensed under GNU General Public License v3.0</span>
-                <span>Author: Vedansh Saxena</span>
+              <div className="border-t border-[#15343d] pt-4 flex justify-between items-center text-[10px] text-[#517d87] font-mono">
+                <span>LICENSE: GNU GPLv3</span>
+                <span>MAINTAINER: Vedansh Saxena</span>
               </div>
             </div>
           </div>
         </motion.div>
       )}
 
-      {/* Global Footer */}
-      <footer className="relative z-10 w-full max-w-6xl mx-auto px-6 py-8 border-t border-[#21262d] flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500 font-mono mt-12">
-        <div className="flex items-center gap-2">
-          <img src="/logo.png" alt="Logo" className="w-4 h-4 object-contain opacity-70" />
-          <span>GlyphBoard Aegis • Open Source under GNU GPLv3</span>
+      {/* Global Terminal Footer */}
+      <footer className="relative z-30 w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 border-t border-[#142c35]/80 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-[#527d87] mt-16">
+        <div className="flex flex-col sm:flex-row items-center gap-3">
+          <div className="flex items-center gap-2">
+            <img src="/logo.png" alt="Logo" className="w-4 h-4 object-contain opacity-60" />
+            <span>GLYPHBOARD AEGIS // GNU GENERAL PUBLIC LICENSE v3.0</span>
+          </div>
+          <span className="hidden sm:inline text-[#244652]">|</span>
+          <div className="flex items-center gap-3 text-[11px]">
+            <a href={PROFILE_GITHUB} target="_blank" rel="noreferrer" className="hover:text-[#9fdbe4] transition-colors flex items-center gap-1">
+              <GithubIcon size={12} /> GitHub
+            </a>
+            <a href={PROFILE_LINKEDIN} target="_blank" rel="noreferrer" className="hover:text-[#9fdbe4] transition-colors flex items-center gap-1">
+              <LinkedInIcon size={12} /> LinkedIn
+            </a>
+            <a href={PROFILE_INSTAGRAM} target="_blank" rel="noreferrer" className="hover:text-[#9fdbe4] transition-colors flex items-center gap-1">
+              <InstagramIcon size={12} /> Instagram
+            </a>
+          </div>
         </div>
-        <div className="flex items-center gap-6">
-          <button 
-            onClick={() => navigateTo('overview')} 
-            className="hover:text-slate-300 transition-colors cursor-pointer"
-          >
-            Overview
-          </button>
-          <button 
-            onClick={() => navigateTo('hardware-vault')} 
-            className="hover:text-slate-300 transition-colors cursor-pointer"
-          >
-            Vault
-          </button>
-          <button 
-            onClick={() => navigateTo('totp-2fa')} 
-            className="hover:text-slate-300 transition-colors cursor-pointer"
-          >
-            TOTP 2FA
-          </button>
-          <button 
-            onClick={() => navigateTo('dual-engine')} 
-            className="hover:text-slate-300 transition-colors cursor-pointer"
-          >
-            Storage
-          </button>
-          <button 
-            onClick={() => navigateTo('readme')} 
-            className="hover:text-slate-300 transition-colors cursor-pointer"
-          >
-            README
-          </button>
+
+        <div className="flex items-center gap-4 text-[11px]">
+          <button onClick={() => navigateTo('overview')} className="hover:text-[#9fdbe4] transition-colors cursor-pointer">Terminal</button>
+          <button onClick={() => navigateTo('hardware-vault')} className="hover:text-[#9fdbe4] transition-colors cursor-pointer">Vault</button>
+          <button onClick={() => navigateTo('totp-2fa')} className="hover:text-[#9fdbe4] transition-colors cursor-pointer">TOTP</button>
+          <button onClick={() => navigateTo('dual-engine')} className="hover:text-[#9fdbe4] transition-colors cursor-pointer">Storage</button>
+          <button onClick={() => navigateTo('readme')} className="hover:text-[#9fdbe4] transition-colors cursor-pointer">Docs</button>
         </div>
       </footer>
     </div>
